@@ -17,15 +17,17 @@ import axios from "axios";
 import { BiArrowBack } from "react-icons/bi";
 
 const Wallet = () => {
+	const [wallet, setWallet] = useState([]);
 	const [walletDetail, setWalletDetail] = useState([]);
-	const [isActive, setIsActive] = useState(false);
+	const [isActive, setIsActive] = useState(true);
 	const [createModal, setCreateModal] = useState(false);
 	const [editModal, setEditModal] = useState(false);
+	const [idWallet, setIdWallet] = useState([]);
 	const [newWalletName, setNewWalletName] = useState({
 		wallet_name: "",
 		money: "",
 	});
-	const [editWalletName, setEditWalletName] = useState({
+	const [editWallet, setEditWallet] = useState({
 		wallet_name: "",
 		money: "",
 	});
@@ -37,18 +39,55 @@ const Wallet = () => {
 		if (text !== "") {
 			setIsActive(true);
 		} else {
-			setIsActive(false);
+			setIsActive(true);
 		}
 	}
+
+	const refreshPage = () => {
+		window.location.reload(false);
+	};
+
+	const listOfWallet = wallet.map((item) => (
+		<Button
+			key={item.id}
+			onClick={() => {
+				const id = item.id;
+				setIdWallet(id);
+				// refreshPage();
+			}}
+		>
+			<div className="wallet-form">
+				<div className="include-text">
+					<h9>Included in Total</h9>
+				</div>
+				<div className="wallet-total">
+					<div className="wallet-name">
+						<p>{item.wallet_name}</p>
+					</div>
+					<div className="wallet-money">
+						<p>+$ {item.money}</p>
+					</div>
+				</div>
+			</div>
+		</Button>
+	));
 
 	const toggleAddWallet = () => setCreateModal(!createModal);
 	const toggleEditWallet = () => setEditModal(!editModal);
 
 	useEffect(() => {
-		axios.get("http://localhost:3001/wallets/3").then((response) => {
+		axios.get(`http://localhost:3001/wallets/${idWallet}`).then((response) => {
 			const { data } = response;
 			// console.log(data);
 			setWalletDetail(data);
+			setEditWallet(data);
+		});
+	}, []);
+
+	useEffect(() => {
+		axios.get(`http://localhost:3001/wallets/`).then((response) => {
+			const { data } = response;
+			setWallet(data);
 		});
 	}, []);
 
@@ -59,17 +98,19 @@ const Wallet = () => {
 		axios.post("http://localhost:3001/wallets", newData).then((response) => {
 			if (response.status === 201) {
 				toggleAddWallet();
+				//will be have alert success
 			}
 		});
 	};
 
-	const editWallet = () => {
-		const { wallet_name, money } = editWalletName;
+	const updateWallet = () => {
+		const { wallet_name, money } = editWallet;
 		const editData = { wallet_name: wallet_name, money: money };
 
-		axios.put("http://localhost:3001/wallets", editData).then((response) => {
+		axios.put("http://localhost:3001/wallets/3", editData).then((response) => {
 			if (response.status === 201) {
-				toggleAddWallet();
+				toggleEditWallet();
+				//will be have alert update success
 			}
 		});
 	};
@@ -92,19 +133,24 @@ const Wallet = () => {
 				<Container className="wallet-detail-container">
 					<Row>
 						<Col md="5">
-							<div className="wallet-form">
-								<div className="include-text">
-									<h9>Included in Total</h9>
-								</div>
-								<div className="wallet-total">
-									<div className="wallet-name">
-										<p>{walletDetail.wallet_name}</p>
+							{/* <a href={``}>
+								<div className="wallet-form">
+									<div className="include-text">
+										<h9>Included in Total</h9>
 									</div>
-									<div className="wallet-money">
-										<p>+$ {walletDetail.money}</p>
+									<div className="wallet-total">
+										<div className="wallet-name">
+											<p>{walletDetail.wallet_name}</p>
+										</div>
+										<div className="wallet-money">
+											<p>+$ {walletDetail.money}</p>
+										</div>
 									</div>
 								</div>
-							</div>
+							</a> */}
+
+							{listOfWallet}
+
 							<div className="wrap-add-wallet">
 								<Button
 									className="add-wallet"
@@ -146,9 +192,7 @@ const Wallet = () => {
 													});
 												}}
 											/>
-											<Label className={isActive ? "Active" : ""}>
-												Initial Balance
-											</Label>
+											<Label className={isActive ? "Active" : ""}>Money</Label>
 										</div>
 									</ModalBody>
 									<ModalFooter>
@@ -180,38 +224,53 @@ const Wallet = () => {
 										<Modal isOpen={editModal} toggle={toggleEditWallet}>
 											<ModalHeader>Edit wallet</ModalHeader>
 											<ModalBody>
-												<div>
+												<div id="float-label">
 													<Input
 														type="string"
+														// placeholder={walletDetail.wallet_name}
+														value={editWallet.wallet_name}
 														onChange={(event) => {
-															setNewWalletName({
-																...newWalletName,
+															setEditWallet({
+																...editWallet,
 																wallet_name: event.target.value,
 															});
 															handleTextChange(event.target.value);
 														}}
 													/>
-													<Label>Wallet name</Label>
+													<Label className={isActive ? "Active" : ""}>
+														Wallet name
+													</Label>
 												</div>
-												<div>
+												<br />
+												<div id="float-label">
 													<Input
 														type="integer"
+														value={editWallet.money}
 														onChange={(event) => {
-															setNewWalletName({
-																...newWalletName,
+															setEditWallet({
+																...editWallet,
 																money: event.target.value,
 															});
 														}}
 													/>
-													<Label>Initial balance</Label>
+													<Label className={isActive ? "Active" : ""}>
+														Initial balance
+													</Label>
 												</div>
 											</ModalBody>
-											<ModalFooter></ModalFooter>
+											<ModalFooter>
+												<Button color="secondary" onClick={toggleEditWallet}>
+													Cancel
+												</Button>
+												<Button color="success" onClick={updateWallet}>
+													Save
+												</Button>
+											</ModalFooter>
 										</Modal>
 									</Row>
 								</div>
 								<div className="wallet-detail-name">
-									<h4>{walletDetail.wallet_name}</h4>
+									<h3>{walletDetail.wallet_name}</h3>
 								</div>
 							</div>
 						</Col>

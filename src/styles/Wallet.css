@@ -30,12 +30,10 @@ body {
 	background-color: rgb(238, 249, 245);
 	min-height: 120px;
 	justify-content: center;
-
-	/* margin-left: 300px;
-	margin-right: 300px; */
 	border: 1px solid var(--text-color-level3, rgba(77, 80, 85, 0.1));
 	border-radius: 3px;
 	box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.08);
+	margin-bottom: 10px;
 }
 
 .wallet-detail-container {
@@ -81,12 +79,7 @@ body {
 .wallet-name {
 	font-size: 13px;
 	font-weight: 20px;
-}
-
-.wallet-total {
-}
-
-.wallet-name {
+	color: black;
 	padding-left: 10px;
 	padding-top: 10px;
 	margin-bottom: 0;
@@ -95,6 +88,7 @@ body {
 .wallet-money {
 	padding-left: 10px;
 	font-size: 10px;
+	color: black;
 }
 
 #float-label {
@@ -134,4 +128,10 @@ body {
 
 #float-label .Active {
 	transform: translate(0, 12px) scale(0.75);
+}
+
+.wallet-detail-name {
+	font-size: 24px !important;
+	padding-top: 20px;
+	padding-left: 40px;
 }
