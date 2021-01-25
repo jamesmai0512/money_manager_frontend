@@ -52,3 +52,54 @@
 .modal-header p {
 	margin-bottom: 0;
 }
+
+/* .modal-body-transaction {
+	width: 110px;
+} */
+
+.modal-dialog.modal-transaction {
+	max-width: 870px !important;
+}
+
+#float-label-add-transaction {
+	display: flex;
+	flex-direction: column;
+	/* min-width: 297px; */
+	position: relative;
+	padding: 20px;
+}
+#float-label-add-transaction .input-note-add-transaction {
+	min-width: 514px;
+}
+
+#float-label-add-transaction input {
+	width: 237px;
+	height: 65px;
+	padding: 32px 16px 0 10px;
+	outline: 0;
+	border: 1px soli;
+	border-radius: 10px;
+	background: #fff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+}
+
+#float-label-add-transaction label {
+	font-size: 16px;
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 0 12px;
+	color: #999;
+	pointer-events: none;
+	position: absolute;
+	transform: translate(0, 26px) scale(1);
+	transform-origin: top left;
+	transition: all 0.2s ease-out;
+}
+
+#float-label-add-transaction:focus-within label {
+	transform: translate(0, 12px) scale(0.75);
+}
+
+#float-label-add-transaction .Active {
+	transform: translate(0, 12px) scale(0.75);
+}

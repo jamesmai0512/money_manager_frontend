@@ -9,11 +9,24 @@ import {
 	ModalBody,
 	ModalHeader,
 	ModalFooter,
+	Input,
+	Label,
 } from "reactstrap";
-a;
+
 const Home = () => {
 	const [walletDetail, setWalletDetail] = useState([]);
 	const [modal, setModal] = useState(false);
+	const [isActive, setIsActive] = useState(true);
+
+	function handleTextChange(text) {
+		// setValue(text);
+
+		if (text !== "") {
+			setIsActive(true);
+		} else {
+			setIsActive(true);
+		}
+	}
 
 	useEffect(() => {
 		axios.get("http://localhost:3001/wallets/1").then((response) => {
@@ -22,8 +35,9 @@ const Home = () => {
 			setWalletDetail(data);
 		});
 	}, []);
+	const addTransaction = () => {};
 
-	const toggle = () => setModal(!modal);
+	const toggleAddTransaction = () => setModal(!modal);
 
 	return (
 		<>
@@ -39,16 +53,71 @@ const Home = () => {
 								<Button
 									className="add-transaction"
 									color="success"
-									onClick={toggle}
+									onClick={toggleAddTransaction}
 								>
 									ADD TRANSACTION
 								</Button>
-								<Modal isOpen={modal} toggle={toggle}>
-									<ModalHeader toggle={toggle} className="modal-header">
+								<Modal
+									className="modal-transaction"
+									isOpen={modal}
+									toggle={toggleAddTransaction}
+								>
+									<ModalHeader
+										toggle={toggleAddTransaction}
+										className="modal-header"
+									>
 										<p>Add Transaction</p>
 									</ModalHeader>
-									<ModalBody></ModalBody>
-									<ModalFooter></ModalFooter>
+									<ModalBody className="modal-body-transaction">
+										<Container>
+											<Row>
+												<div id="float-label-add-transaction">
+													<Input
+														className="input-add-transaction"
+														onChange={(event) => {
+															handleTextChange(event.target.value);
+														}}
+													/>
+													<Label className={isActive ? "Active" : ""}>
+														Wallet name
+													</Label>
+												</div>
+
+												<div id="float-label-add-transaction">
+													<Input className="input-add-transaction" />
+													<Label className={isActive ? "Active" : ""}>
+														Category
+													</Label>
+												</div>
+												<div id="float-label-add-transaction">
+													<Input className="input-add-transaction" />
+													<Label className={isActive ? "Active" : ""}>
+														Amount
+													</Label>
+												</div>
+												<div id="float-label-add-transaction">
+													<Input className="input-add-transaction" />
+													<Label className={isActive ? "Active" : ""}>
+														Date
+													</Label>
+												</div>
+												<div id="float-label-add-transaction">
+													<Input className="input-note-add-transaction" />
+													<Label className={isActive ? "Active" : ""}>
+														Note
+													</Label>
+												</div>
+											</Row>
+										</Container>
+									</ModalBody>
+									<ModalFooter>
+										<Button color="secondary" onClick={toggleAddTransaction}>
+											Cancel
+										</Button>
+										<Button color="success" onClick={addTransaction}>
+											save
+										</Button>
+									</ModalFooter>
 								</Modal>
 							</div>
 						</Row>

@@ -48,7 +48,7 @@ const Wallet = () => {
 	};
 
 	const listOfWallet = wallet.map((item) => (
-		<Button
+		<a
 			key={item.id}
 			onClick={() => {
 				const id = item.id;
@@ -69,7 +69,7 @@ const Wallet = () => {
 					</div>
 				</div>
 			</div>
-		</Button>
+		</a>
 	));
 
 	const toggleAddWallet = () => setCreateModal(!createModal);
