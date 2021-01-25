@@ -10,7 +10,7 @@ import {
 	ModalHeader,
 	ModalFooter,
 } from "reactstrap";
-
+a;
 const Home = () => {
 	const [walletDetail, setWalletDetail] = useState([]);
 	const [modal, setModal] = useState(false);
