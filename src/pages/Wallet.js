@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
+import WalletButton from "../modules/wallet/components/WalletButton";
 import {
 	Container,
 	Button,
@@ -48,28 +49,7 @@ const Wallet = () => {
 	};
 
 	const listOfWallet = wallet.map((item) => (
-		<a
-			key={item.id}
-			onClick={() => {
-				const id = item.id;
-				setIdWallet(id);
-				// refreshPage();
-			}}
-		>
-			<div className="wallet-form">
-				<div className="include-text">
-					<h9>Included in Total</h9>
-				</div>
-				<div className="wallet-total">
-					<div className="wallet-name">
-						<p>{item.wallet_name}</p>
-					</div>
-					<div className="wallet-money">
-						<p>+$ {item.money}</p>
-					</div>
-				</div>
-			</div>
-		</a>
+		<WalletButton setIdWallet={setIdWallet} key={item.id} item={item} />
 	));
 
 	const toggleAddWallet = () => setCreateModal(!createModal);
@@ -133,22 +113,6 @@ const Wallet = () => {
 				<Container className="wallet-detail-container">
 					<Row>
 						<Col md="5">
-							{/* <a href={``}>
-								<div className="wallet-form">
-									<div className="include-text">
-										<h9>Included in Total</h9>
-									</div>
-									<div className="wallet-total">
-										<div className="wallet-name">
-											<p>{walletDetail.wallet_name}</p>
-										</div>
-										<div className="wallet-money">
-											<p>+$ {walletDetail.money}</p>
-										</div>
-									</div>
-								</div>
-							</a> */}
-
 							{listOfWallet}
 
 							<div className="wrap-add-wallet">
